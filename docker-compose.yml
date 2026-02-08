@@ -1,0 +1,115 @@
+version: "3.9"
+
+services:
+
+  agent-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: enterprise-ai-agent
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+      # OpenAI
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+      # Elasticsearch
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+      # Tool APIs (example placeholders)
+      JIRA_BASE_URL: https://your-domain.atlassian.net
+      CONFLUENCE_BASE_URL: https://your-domain.atlassian.net/wiki
+      OUTLOOK_BASE_URL: https://graph.microsoft.com
+
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+    networks:
+      - agent-network
+
+    restart: unless-stopped
+
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+
+# =======================================================
+# ELASTICSEARCH (Vector Store for RAG)
+# =======================================================
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - "9200:9200"
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    networks:
+      - agent-network
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200 >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+# =======================================================
+# KIBANA (Optional but VERY useful)
+# =======================================================
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - agent-network
+
+
+# =======================================================
+# REDIS (Memory + Session Store)
+# =======================================================
+
+  redis:
+    image: redis:7.2
+    container_name: redis-agent
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - agent-network
+    restart: unless-stopped
+
+
+# =======================================================
+# NETWORK + VOLUMES
+# =======================================================
+
+networks:
+  agent-network:
+    driver: bridge
+
+volumes:
+  elastic_data:
+  redis_data:

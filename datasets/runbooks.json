@@ -1,0 +1,35 @@
+[
+  {
+    "runbookId": "RB-001",
+    "title": "Restart a failing Kubernetes pod",
+    "steps": [
+      "Check pod status using kubectl get pods",
+      "Inspect logs using kubectl logs <pod>",
+      "Delete pod to allow replica replacement",
+      "Verify new pod health"
+    ],
+    "automationPossible": true
+  },
+  {
+    "runbookId": "RB-002",
+    "title": "Resolve database connection exhaustion",
+    "steps": [
+      "Check active connections",
+      "Identify long-running queries",
+      "Restart affected service if necessary",
+      "Scale database vertically if threshold exceeded"
+    ],
+    "automationPossible": false
+  },
+  {
+    "runbookId": "RB-003",
+    "title": "Rebuild Elasticsearch index",
+    "steps": [
+      "Validate index health",
+      "Trigger reindex pipeline",
+      "Monitor shard allocation",
+      "Run latency test"
+    ],
+    "automationPossible": true
+  }
+]

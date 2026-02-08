@@ -1,0 +1,38 @@
+{
+  "title": "Enterprise AI Agent Dashboard",
+  "timezone": "browser",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "API Request Rate",
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_count[1m])"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 0, "w": 8, "h": 4 }
+    },
+    {
+      "type": "stat",
+      "title": "Error Rate",
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_count{status=~\"5..\"}[1m])"
+        }
+      ],
+      "gridPos": { "x": 8, "y": 0, "w": 8, "h": 4 }
+    },
+    {
+      "type": "graph",
+      "title": "Response Latency",
+      "targets": [
+        {
+          "expr": "rate(http_server_requests_seconds_sum[1m]) / rate(http_server_requests_seconds_count[1m])"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 4, "w": 16, "h": 8 }
+    }
+  ],
+  "schemaVersion": 36,
+  "version": 1
+}

@@ -1,0 +1,33 @@
+tools:
+
+  jira:
+    enabled: true
+    baseUrl: ${JIRA_BASE_URL}
+    auth:
+      type: basic
+      username: ${JIRA_USERNAME}
+      token: ${JIRA_API_TOKEN}
+    timeout: 5s
+
+  confluence:
+    enabled: true
+    baseUrl: ${CONFLUENCE_BASE_URL}
+    auth:
+      type: basic
+      username: ${CONFLUENCE_USERNAME}
+      token: ${CONFLUENCE_API_TOKEN}
+
+  outlook:
+    enabled: true
+    graphEndpoint: https://graph.microsoft.com
+    auth:
+      type: oauth2
+      clientId: ${OUTLOOK_CLIENT_ID}
+      clientSecret: ${OUTLOOK_CLIENT_SECRET}
+      tenantId: ${OUTLOOK_TENANT_ID}
+
+execution:
+
+  parallelCalls: true
+  maxConcurrentTools: 5
+  toolTimeoutSeconds: 8
