@@ -1,0 +1,48 @@
+[
+  {
+    "incidentId": "INC-1001",
+    "title": "Payment service timeout",
+    "severity": "P1",
+    "service": "payment-service",
+    "environment": "production",
+    "description": "Users experienced failures while processing credit card payments due to downstream gateway latency.",
+    "rootCause": "Third-party payment gateway response time exceeded 15 seconds.",
+    "resolution": "Configured circuit breaker and reduced timeout to 5 seconds.",
+    "status": "Resolved",
+    "createdAt": "2025-11-10T10:15:00Z"
+  },
+  {
+    "incidentId": "INC-1002",
+    "title": "Database connection pool exhausted",
+    "severity": "P1",
+    "service": "order-service",
+    "environment": "production",
+    "description": "Application pods unable to acquire DB connections causing 500 errors.",
+    "rootCause": "Connection leak introduced in release v2.3.1.",
+    "resolution": "Patched leak and increased pool size from 20 to 50.",
+    "status": "Resolved",
+    "createdAt": "2025-12-02T03:40:00Z"
+  },
+  {
+    "incidentId": "INC-1003",
+    "title": "High latency in search API",
+    "severity": "P2",
+    "service": "search-service",
+    "environment": "production",
+    "description": "Search API latency increased to 3 seconds.",
+    "rootCause": "Missing Elastic index after deployment.",
+    "resolution": "Rebuilt index using reindex pipeline.",
+    "status": "Resolved"
+  },
+  {
+    "incidentId": "INC-1004",
+    "title": "Kubernetes pod crash loop",
+    "severity": "P1",
+    "service": "inventory-service",
+    "environment": "production",
+    "description": "Pods repeatedly restarting after deployment.",
+    "rootCause": "Invalid environment variable caused startup failure.",
+    "resolution": "Rolled back deployment and fixed config.",
+    "status": "Resolved"
+  }
+]

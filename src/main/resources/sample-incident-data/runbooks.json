@@ -1,0 +1,21 @@
+[
+  {
+    "service": "payment-service",
+    "issue": "High latency",
+    "steps": [
+      "Check database CPU usage",
+      "Verify connection pool",
+      "Inspect slow queries",
+      "Scale replicas if required"
+    ]
+  },
+  {
+    "service": "auth-service",
+    "issue": "Login failures",
+    "steps": [
+      "Check Redis health",
+      "Validate JWT signing keys",
+      "Inspect auth logs"
+    ]
+  }
+]

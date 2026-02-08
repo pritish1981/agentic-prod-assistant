@@ -1,0 +1,16 @@
+{
+  "description": "Pipeline for AI production incident ingestion",
+  "processors": [
+    {
+      "set": {
+        "field": "ingested_at",
+        "value": "{{_ingest.timestamp}}"
+      }
+    },
+    {
+      "script": {
+        "source": "ctx.combined_text = (ctx.title ?: '') + ' ' + (ctx.description ?: '') + ' ' + (ctx.rootCause ?: '') + ' ' + (ctx.resolution ?: '');"
+      }
+    }
+  ]
+}

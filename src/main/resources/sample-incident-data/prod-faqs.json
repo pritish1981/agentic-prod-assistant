@@ -1,0 +1,10 @@
+[
+  {
+    "question": "How to handle SEV-1 incidents?",
+    "answer": "Immediately page on-call engineer, create war room, and notify stakeholders."
+  },
+  {
+    "question": "Where are production logs stored?",
+    "answer": "Logs are available in the centralized ELK cluster."
+  }
+]

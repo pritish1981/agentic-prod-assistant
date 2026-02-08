@@ -1,0 +1,20 @@
+[
+  {
+    "incidentId": "INC-1001",
+    "service": "payment-service",
+    "severity": "SEV-1",
+    "summary": "Payments failing for multiple regions",
+    "rootCause": "Database connection pool exhaustion",
+    "resolution": "Increased pool size and restarted service",
+    "timestamp": "2025-12-10T10:15:00Z"
+  },
+  {
+    "incidentId": "INC-1002",
+    "service": "auth-service",
+    "severity": "SEV-2",
+    "summary": "Users unable to login intermittently",
+    "rootCause": "Redis cache eviction misconfiguration",
+    "resolution": "Updated cache TTL settings",
+    "timestamp": "2025-11-02T03:22:00Z"
+  }
+]
