@@ -151,7 +151,8 @@ Clean separation enables production scalability.
 
 ⚡ Quick Start
 1️⃣ Clone Repo
-git clone https://github.com/pritish1981/agentic-prod-assistan
+git clone https://github.com/pritish1981/agentic-prod-assistant
+
 cd agentic-prod-assitant
 
 2️⃣ Start Elastic
