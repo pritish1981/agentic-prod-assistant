@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const API_BASE = "http://localhost:8081/api/chat";
+const API_BASE = "http://localhost:8080/api/chat";
 
 
 export const streamChat = async (payload, onChunk, onComplete) => {

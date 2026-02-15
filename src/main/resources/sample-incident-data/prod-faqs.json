@@ -1,10 +1,22 @@
 [
   {
-    "question": "How to handle SEV-1 incidents?",
-    "answer": "Immediately page on-call engineer, create war room, and notify stakeholders."
+    "question": "How do I check production deployment status?",
+    "answer": "Navigate to the CI/CD dashboard and verify the latest pipeline execution. Ensure all stages passed before confirming deployment success.",
+    "category": "deployment"
   },
   {
-    "question": "Where are production logs stored?",
-    "answer": "Logs are available in the centralized ELK cluster."
+    "question": "What should I do if CPU usage exceeds 90%?",
+    "answer": "Check for traffic spikes, analyze running queries, and scale pods horizontally using the autoscaler.",
+    "category": "performance"
+  },
+  {
+    "question": "Who should be notified during a P1 incident?",
+    "answer": "Notify the on-call SRE, service owner, and incident commander immediately via PagerDuty or Slack.",
+    "category": "incident-management"
+  },
+  {
+    "question": "When should we trigger a rollback?",
+    "answer": "Rollback immediately if error rate exceeds SLA or critical user flows are impacted.",
+    "category": "release-management"
   }
 ]

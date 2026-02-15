@@ -10,7 +10,10 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,18 +22,27 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RagRetriever {
 	private static final Logger log = LoggerFactory.getLogger(RagRetriever.class);
 	
-	private final ElasticVectorStore vectorStore;
+	private final VectorStore vectorStore;
 	private final List<FaqEntry> faqEntries;
+	private final boolean faqFallbackEnabled;
 	
-	public RagRetriever(Optional<ElasticVectorStore> vectorStore, ObjectMapper objectMapper) {
+	public RagRetriever(Optional<VectorStore> vectorStore,
+			ObjectMapper objectMapper,
+			@Value("${agentic.rag.faq-fallback-enabled:true}") boolean faqFallbackEnabled) {
 		this.vectorStore = vectorStore.orElse(null);
-		this.faqEntries = loadFaqs(objectMapper);
+		this.faqFallbackEnabled = faqFallbackEnabled;
+		this.faqEntries = faqFallbackEnabled ? loadFaqs(objectMapper) : List.of();
     }
 	
 	public String retrieve(String query) {
 		String ragResult = "";
 		if (vectorStore != null) {
-			List<Document> documents = vectorStore.similaritySearch(query);
+			List<Document> documents = vectorStore.similaritySearch(
+				SearchRequest.builder()
+					.query(query)
+					.topK(5)
+					.build()
+			);
 			if (!documents.isEmpty()) {
 				ragResult = documents.stream()
 						.map(Document::getText)
@@ -41,6 +53,10 @@ public class RagRetriever {
 
 		if (!ragResult.isBlank()) {
 			return ragResult;
+		}
+
+		if (!faqFallbackEnabled) {
+			return "";
 		}
 
 		return lookupFaq(query);
